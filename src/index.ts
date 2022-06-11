@@ -119,7 +119,7 @@ if(import.meta.hot){
           //   }]
           // }
         }, range)
-        try{
+        try {
 
           t1.addTransform({
             regex: new RegExp(`{[\\w\\s,]+} *= *${elem}([^\\w])`, 'g'),
@@ -128,7 +128,7 @@ if(import.meta.hot){
               return m0.substring(0, m0.length - 1) + `.__newestElem${m1}`
             }
           }, range)
-        } catch(e){
+        } catch (e) {
           // skipping overlaped `.__newestElem`
         }
       }
@@ -146,42 +146,48 @@ if(import.meta.hot){
           }
         },
         {
-          regex: /(?:(?:const|let) +(?<varname>\w+) *= *)?(?<rest>Blue\.r\([A-Z]\w*)/g,
+          regex: /(?:const|let) +(?<varname>\w+) *= *\/\*(?:(?!\*\/)[\s\S])*\*\/ *(?<rest>Blue\.r\([A-Z]\w*)/g,
           // turn elements made from other Blue component updatable
           replaceWGroup({ varname, rest }) {
-            if (varname) {
-              return `let ${varname} = ${rest}`
-            }
+            return `let ${varname} = ${rest}`
           },
           WGroup({ varname }) {
-            if (varname) {
-              t1.addTransform({
-                regex: /return (?<self>\w+)/g,
-                addWGroup({ self }) {
-                  if (varname === self) {
-                    return [{
-                      adding: `${self}.__canUpdate = false\n`,
-                      scope: Scope.SAME,
-                      place: CodePlace.BEFORE
-                    }]
-                  }
-                  return []
-                }
-              }, range)
-            }
+            t1.addTransform({
+              regex: new RegExp(`return *${varname}`, 'g'),///return (?<self>\w+)/g,
+              add() {
+                return [{
+                  adding: `${varname}.__canUpdate = false\n`,
+                  scope: Scope.SAME,
+                  place: CodePlace.BEFORE
+                }]
+              }
+            }, range)
+
           },
           nestWGroup({ varname }) {
-            if (varname) {
-              modElem(varname)
-              return []
-            } else {
-              return [{
-                regex: /ref: *\[ *[\w]+, *['"](?<refname>[\w]*)['"]\]/g,
-                WGroup({ refname }) {
-                  modElem(refname)
-                }
-              }]
-            }
+            modElem(varname)
+            return []
+          }
+        },
+        {
+          regex: /Blue\.r\([A-Z]\w*, {(?:(?!Blue\.r)[\s\S])*ref: *\[ *[\w]+, *['"](?<refname>[\w]*)['"]\]/g,
+          // turn elements made from other Blue component updatable
+          WGroup({ refname }) {
+            t1.addTransform({
+              regex: new RegExp(`return *${refname}`, 'g'),///return (?<self>\w+)/g,
+              add() {
+                return [{
+                  adding: `${refname}.__canUpdate = false\n`,
+                  scope: Scope.SAME,
+                  place: CodePlace.BEFORE
+                }]
+              }
+            }, range)
+
+          },
+          nestWGroup({ refname }) {
+            modElem(refname)
+            return []
           }
         },
       ]

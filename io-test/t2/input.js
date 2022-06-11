@@ -5,9 +5,29 @@ import { codeOptions as CLASS_CODE_OPTIONS } from './index.module.scss'
 
 export default ({ code }) => {
   const refs = getRefs()
-  const self = Blue.r(CodeSpace, null, 
-    Blue.r('select', { id: 'code-options', class: CLASS_CODE_OPTIONS, ref: [refs, 'codeSelector'] })
-    )
+  const self = /* @__PURE__ */ Blue.r(CodeSpace, null, /* @__PURE__ */ Blue.r("label", {
+    for: "code-options"
+  }, " Coding style: "), /* @__PURE__ */ Blue.r("select", {
+    id: "code-options",
+    class: CLASS_CODE_OPTIONS,
+    ref: [refs, "codeSelector"]
+  }, /* @__PURE__ */ Blue.r("option", {
+    value: "0"
+  }, "JSX"), /* @__PURE__ */ Blue.r("option", {
+    value: "1"
+  }, "JSX with ref attribute"), /* @__PURE__ */ Blue.r("option", {
+    value: "2"
+  }, "JSX with AttrHolder"), /* @__PURE__ */ Blue.r("option", {
+    value: "3"
+  }, "TSX"), /* @__PURE__ */ Blue.r("option", {
+    value: "4"
+  }, "TSX with ref attribute"), /* @__PURE__ */ Blue.r("option", {
+    value: "5"
+  }, "TSX with AttrHolder"), /* @__PURE__ */ Blue.r("option", {
+    value: "6"
+  }, "TSX + SVG Animation"), /* @__PURE__ */ Blue.r("option", {
+    value: "7"
+  }, "Playing Around")));
     /* <CodeSpace>
     <label for='code-options'> Coding style: </label>
     <select id='code-options' class={CLASS_CODE_OPTIONS} ref={[refs, 'codeSelector']}>
