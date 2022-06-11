@@ -40,7 +40,7 @@ if(import.meta.hot){
   const p_handler = hmrload(${self_name});
   import.meta.hot.accept((mod)=>{
     if(!${self_name}.__canUpdate) import.meta.hot.decline()
-    const newElem = Blue.r(mod.${expt_name}, _bjsx_comp_attr, _bjsx_comp_attr.children)
+    const newElem = Blue.r(mod.${expt_name}, _bjsx_comp_attr, _bjsx_comp_attr?.children || undefined)
     try{
       //---------------
       newElem.__mod_props = ${self_name}.__mod_props;
@@ -87,7 +87,7 @@ if(import.meta.hot){
       if (!added_import) {
         added_import = true
         return [{
-          adding: 'import { hmrload } from "@bluejsx/vite-plugin-blue-hmr";',
+          adding: ';let _bjsx_comp_attr = null; import { hmrload } from "@bluejsx/vite-plugin-blue-hmr";',
           scope: Scope.FILE_ROOT,
           place: CodePlace.START
         }]
@@ -128,7 +128,7 @@ if(import.meta.hot){
               return m0.substring(0, m0.length - 1) + `.__newestElem${m1}`
             }
           }, range)
-        } catch (e) {
+        } catch (_) {
           // skipping overlaped `.__newestElem`
         }
       }
@@ -146,7 +146,7 @@ if(import.meta.hot){
           }
         },
         {
-          regex: /(?:const|let) +(?<varname>\w+) *= *\/\*(?:(?!\*\/)[\s\S])*\*\/ *(?<rest>Blue\.r\([A-Z]\w*)/g,
+          regex: /(?:const|let) +(?<varname>\w+) *=[( ]*\/\*(?:(?!\*\/)[\s\S])*\*\/[( ]*(?<rest>Blue\.r\([A-Z]\w*)/g,
           // turn elements made from other Blue component updatable
           replaceWGroup({ varname, rest }) {
             return `let ${varname} = ${rest}`
