@@ -1,5 +1,4 @@
-import { hmrload } from "@bluejsx/vite-plugin-blue-hmr";
-// @ts-nocheck
+import { hmrload } from "@bluejsx/vite-plugin-blue-hmr";// @ts-nocheck
 
 export default function(_bjsx_comp_attr){
   let { attr1, children } = _bjsx_comp_attr;
