@@ -110,14 +110,14 @@ if(import.meta.hot){
       const modElem = (elem: string) => {
         t1.addTransform({
           regex: new RegExp(`[^\\w]${elem}\\s*\\.`, 'g'),
-          // replace: (match) => `${match[0]}__newestElem.`,
-          add() {
-            return [{
-              adding: `__newestElem.`,
-              scope: Scope.SAME,
-              place: CodePlace.AFTER
-            }]
-          }
+          replace: (match) => `${match[0]}__newestElem.`,
+          // add() {
+          //   return [{
+          //     adding: `__newestElem.`,
+          //     scope: Scope.SAME,
+          //     place: CodePlace.AFTER
+          //   }]
+          // }
         }, range)
 
         t1.addTransform({
