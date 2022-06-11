@@ -1,4 +1,4 @@
-import { Transformer, Scope, CodePlace } from 'https://cdn.skypack.dev/@bluejsx/code-transformer@^0.0.12?dts';
+import { Transformer, Scope, CodePlace } from 'https://cdn.skypack.dev/@bluejsx/code-transformer@^0.0.13?dts';
 export { hmrload } from './hmrload.js';
 export const transform = (code: string) => {
 
@@ -110,23 +110,27 @@ if(import.meta.hot){
       const modElem = (elem: string) => {
         t1.addTransform({
           regex: new RegExp(`[^\\w]${elem}\\s*\\.`, 'g'),
-          // replace: (match) => `${match[0]}__newestElem.`,
-          add() {
-            return [{
-              adding: `__newestElem.`,
-              scope: Scope.NONE,
-              place: CodePlace.AFTER
-            }]
-          }
+          replace: (match) => `${match[0]}__newestElem.`,
+          // add() {
+          //   return [{
+          //     adding: `__newestElem.`,
+          //     scope: Scope.NONE,
+          //     place: CodePlace.AFTER
+          //   }]
+          // }
         }, range)
+        try{
 
-        t1.addTransform({
-          regex: new RegExp(`{[\\w\\s,]+} *= *${elem}([^\\w])`, 'g'),
-          replace(match) {
-            const [m0, m1] = match
-            return m0.substring(0, m0.length - 1) + `.__newestElem${m1}`
-          }
-        }, range)
+          t1.addTransform({
+            regex: new RegExp(`{[\\w\\s,]+} *= *${elem}([^\\w])`, 'g'),
+            replace(match) {
+              const [m0, m1] = match
+              return m0.substring(0, m0.length - 1) + `.__newestElem${m1}`
+            }
+          }, range)
+        } catch(e){
+          // skipping overlaped `.__newestElem`
+        }
       }
 
       return [

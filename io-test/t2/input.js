@@ -26,6 +26,7 @@ export default ({ code }) => {
     JSXModel = monaco.editor.getModel(JSXURI) || monaco.editor.createModel(null, 'typescript', JSXURI),
     TSXModel = monaco.editor.getModel(TSXURI) || monaco.editor.createModel(null, 'typescript', TSXURI)
   const onscroll = () => {
+    const { unko } = self
     const { top } = self.getBoundingClientRect()
     if (top < 500 && top > 0) {
       self.init().then(()=>applyCode(code, JSXModel))

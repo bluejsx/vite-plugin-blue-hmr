@@ -26,12 +26,13 @@ export default function(_bjsx_comp_attr){let { code } = _bjsx_comp_attr;
     JSXModel = monaco.editor.getModel(JSXURI) || monaco.editor.createModel(null, 'typescript', JSXURI),
     TSXModel = monaco.editor.getModel(TSXURI) || monaco.editor.createModel(null, 'typescript', TSXURI)
   const onscroll = () => {
+    const { unko } = self.__newestElem
     const { top } = self.__newestElem.getBoundingClientRect()
     if (top < 500 && top > 0) {
-      self.init().then(()=>applyCode(code, JSXModel))
-      //self.scrollIntoView({ behavior: 'smooth' })
+      self.__newestElem.init().then(()=>applyCode(code, JSXModel))
+      //self.__newestElem.scrollIntoView({ behavior: 'smooth' })
       document.scrollingElement.scrollTo({
-        top: self.offsetTop - 100,
+        top: self.__newestElem.offsetTop - 100,
         left: 0,
         behavior: 'smooth'
       })
@@ -41,9 +42,9 @@ export default function(_bjsx_comp_attr){let { code } = _bjsx_comp_attr;
   document.addEventListener('scroll', onscroll)
 
   const applyCode = (code, model) => {
-    self.editor.setModel(model)
-    self.editor.setValue(code)
-    self.runCode()
+    self.__newestElem.editor.setModel(model)
+    self.__newestElem.editor.setValue(code)
+    self.__newestElem.runCode()
   }
   codeSelector.onchange = async () => {
     switch (codeSelector.value) {
@@ -104,4 +105,4 @@ if(import.meta.hot){
 }
 self.__canUpdate = false
 return self
-}__newestElem.__newestElem.__newestElem.__newestElem.__newestElem.__newestElem.__newestElem.
+}
