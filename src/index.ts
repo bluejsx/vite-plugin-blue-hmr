@@ -38,9 +38,9 @@ export const transform = (code: string) => {
     `//-----------------------------
 if(import.meta.hot){
   const p_handler = hmrload(${self_name});
-  import.meta.hot.accept(({ ${expt_name} })=>{
+  import.meta.hot.accept((mod)=>{
     if(!${self_name}.__canUpdate) import.meta.hot.decline()
-    const newElem = Blue.r(${expt_name}, _bjsx_comp_attr, _bjsx_comp_attr.children)
+    const newElem = Blue.r(mod.${expt_name}, _bjsx_comp_attr, _bjsx_comp_attr.children)
     try{
       //---------------
       newElem.__mod_props = ${self_name}.__mod_props;
@@ -78,7 +78,7 @@ if(import.meta.hot){
       }]
     }
   })
-  
+
   let added_import = false
 
   t1.addTransform({
