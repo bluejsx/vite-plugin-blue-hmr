@@ -8,10 +8,14 @@ export const hmrload = (self) => {
   const p_handler = {
     get(target, prop) {
       if (typeof target[prop] === "function") {
-        return (...args) => {
-          target.__func_call.set(prop, args);
-          return target[prop](...args);
-        };
+        try{
+          return (...args) => {
+            target.__func_call.set(prop, args);
+            return target[prop](...args);
+          };
+        } catch(_){
+          target.__canUpdate = false;
+        }
       } else if (!Object.getOwnPropertyDescriptor(target, prop).get) {
         // if prop is not a function & not a getter
         target.__canUpdate = false;
