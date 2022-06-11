@@ -1,6 +1,6 @@
 import { transform } from '../src/index.ts'
 
-Deno.chdir('./io-test')
+Deno.chdir('../io-test')
 for (const dirEntry of Deno.readDirSync('./')) {
     if (dirEntry.isDirectory) {
         const input = Deno.readTextFileSync(dirEntry.name+'/input')
