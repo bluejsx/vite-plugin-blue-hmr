@@ -7,20 +7,21 @@ export const hmrload = (self) => {
   //---------------
   const p_handler = {
     get(target, prop) {
-      if (typeof target[prop] === "function") {
-        try{
+      const desc = Object.getOwnPropertyDescriptor(target, prop);
+      const got = target[prop];
+      if (desc) {
+        if (desc.get || !desc.writable || !desc.configurable) {
+          target.__canUpdate = false;
+          return got;
+        } else if (typeof got === "function") {
           return (...args) => {
             target.__func_call.set(prop, args);
-            return target[prop](...args);
+            return got.bind(target)(...args);
           };
-        } catch(_){
-          target.__canUpdate = false;
         }
-      } else if (!Object.getOwnPropertyDescriptor(target, prop).get) {
-        // if prop is not a function & not a getter
-        target.__canUpdate = false;
       }
-      return Reflect.get(...arguments);
+      target.__canUpdate = false;
+      return got.bind?.(target) || got;
     },
     set(target, prop, value) {
       target.__mod_props.set(prop, value);

@@ -1,4 +1,4 @@
-;let _bjsx_comp_attr = null; import { hmrload } from "@bluejsx/vite-plugin-blue-hmr";import { FuncCompParam, getRefs } from "bluejsx"
+import { hmrload } from "@bluejsx/vite-plugin-blue-hmr";import { FuncCompParam, getRefs } from "bluejsx"
 import CodeSpace from "../CodeSpace"
 import * as monaco from 'monaco-editor'
 import { codeOptions as CLASS_CODE_OPTIONS } from './index.module.scss'
@@ -99,9 +99,9 @@ export default function(_bjsx_comp_attr){let { code } = _bjsx_comp_attr;
   //-----------------------------
 if(import.meta.hot){
   const p_handler = hmrload(self);
-  import.meta.hot.accept((mod)=>{
+  import.meta.hot.accept((Mod)=>{
     if(!self.__canUpdate) import.meta.hot.decline()
-    const newElem = Blue.r(mod.default, _bjsx_comp_attr, _bjsx_comp_attr?.children || undefined)
+    const newElem = /* @__PURE__ */ Blue.r(Mod.default, _bjsx_comp_attr, _bjsx_comp_attr?.children || undefined)
     try{
       //---------------
       newElem.__mod_props = self.__mod_props;

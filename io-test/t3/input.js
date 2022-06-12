@@ -4,7 +4,7 @@ export default () => {
 
   const refs = getRefs()
   const self = (
-    <svg viewBox="0 0 256 256" width="80%" height="80%">
+    {/* <svg viewBox="0 0 256 256" width="80%" height="80%">
       <g>
         <linearGradient id="_lgradient_2" x1="0.5" y1="0" x2="0.5" y2="1" gradientTransform="matrix(256,0,0,256,0,0)" gradientUnits="userSpaceOnUse">
           <stop offset="1.6666666666666667%" stop-opacity="1" stop-color="black" />
@@ -16,7 +16,7 @@ export default () => {
         <line ref={[refs, 'line3']} x1='192' y1='222' x2='64' y2='33' stroke="white" stroke-linecap="round" stroke-width='8' stroke-dasharray='1 1' pathLength='1' />
         <line ref={[refs, 'line4']} x1='64' y1='222' x2='192' y2='33' stroke="white" stroke-linecap="round" stroke-width='8' stroke-dasharray='1 1' pathLength='1' />
       </g>
-    </svg>
+    </svg> */}
   )
   const { stopColor, line1, line2, line3, line4 } = refs
   const duration = 1600

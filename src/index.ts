@@ -1,46 +1,19 @@
 import { Transformer, Scope, CodePlace } from 'https://cdn.skypack.dev/@bluejsx/code-transformer@^0.0.13?dts';
 export { hmrload } from './hmrload.js';
-export const transform = (code: string) => {
-
-  const t0 = new Transformer(code)
-  // arrow functions into normal functions
-  t0.addTransform({
-    regex: /export +(?:default|const (?<name>[A-Z]\w*) *=) *\((?<param>[\w, {}\[\]]*)\) *=>[ \n]*(?:{|(?<bstart>(?:\([ \n]*)?Blue.r\())/g,
-    replaceWGroup({ name, param, bstart }) {
-      let replacement = ''
-      if (name) {
-        replacement = `export function ${name}(${param}){`
-      } else {
-        replacement = `export default function(${param}){`
-      }
-      if (bstart) {
-        replacement += ' const self =' + bstart
-      }
-      return replacement
-    },
-    addWGroup({ bstart }) {
-      const adding = []
-      if (bstart) {
-        adding.push({
-          adding: '; return self }',
-          scope: Scope.SAME,
-          place: CodePlace.AFTER
-        })
-      }
-      return adding
-    }
-  })
-
-  code = t0.transform();
 
 
-  const SELF_UPDATER = (self_name: string, expt_name: string) =>
-    `//-----------------------------
+const SELF_UPDATER = (self_name: string, expt_name: string) =>
+  `//-----------------------------
 if(import.meta.hot){
   const p_handler = hmrload(${self_name});
-  import.meta.hot.accept((mod)=>{
-    if(!${self_name}.__canUpdate) import.meta.hot.decline()
-    const newElem = Blue.r(mod.${expt_name}, _bjsx_comp_attr, _bjsx_comp_attr?.children || undefined)
+  import.meta.hot.accept((Mod)=>{
+    if(!${self_name}.__canUpdate) {
+      import.meta.hot.decline()
+    }
+    const { children } = _bjsx_comp_attr
+    delete _bjsx_comp_attr.children
+    const newElem = /* @__PURE__ */ Blue.r(Mod.${expt_name}, _bjsx_comp_attr, children)
+    _bjsx_comp_attr.children = children
     try{
       //---------------
       newElem.__mod_props = ${self_name}.__mod_props;
@@ -63,10 +36,45 @@ if(import.meta.hot){
   })
 }
 `
+
+export const transform = (code: string) => {
+
+  const t0 = new Transformer(code)
+  // arrow functions into normal functions
+  t0.addTransform({
+    regex: /export +(?:default|const (?<name>[A-Z]\w*) *=) *\((?<param>[\w, {}\[\]]*)\) *=>(?:\s*{|(?<bstart>(?:\(|\s|\/\*(?:(?!\*\/)[\s\S])*\*\/)*Blue.r\())/g,
+    replaceWGroup({ name, param, bstart }) {
+      let replacement = ''
+      if (name) {
+        replacement = `export function ${name}(${param || '_p1'}){`
+      } else {
+        replacement = `export default function(${param || '_p1'}){`
+      }
+      if (bstart) {
+        replacement += ' const self =' + bstart
+      }
+      return replacement
+    },
+    addWGroup({ bstart }) {
+      const adding = []
+      if (bstart) {
+        adding.push({
+          adding: '; return self }',
+          scope: Scope.SAME,
+          place: CodePlace.AFTER
+        })
+      }
+      return adding
+    }
+  })
+
+  code = t0.transform();
+
+
   const t1 = new Transformer(code)
   // move the function parameter
   t1.addTransform({
-    regex: /(?<rest>export(?: +default)? +function(?: +[A-Z]\w*)? *)\( *(?<param>{[\w, ]*}) *\) *\{/g,
+    regex: /(?<rest>export(?: +default)? +function(?: +[A-Z]\w*)? *)\( *(?<param>\w+|{[\w, ]*}) *\) *\{/g,
     replaceWGroup({ rest }) {
       return `${rest}(_bjsx_comp_attr){`
     },
@@ -87,7 +95,7 @@ if(import.meta.hot){
       if (!added_import) {
         added_import = true
         return [{
-          adding: ';let _bjsx_comp_attr = null; import { hmrload } from "@bluejsx/vite-plugin-blue-hmr";',
+          adding: 'import { hmrload } from "@bluejsx/vite-plugin-blue-hmr";',
           scope: Scope.FILE_ROOT,
           place: CodePlace.START
         }]
@@ -146,7 +154,7 @@ if(import.meta.hot){
           }
         },
         {
-          regex: /(?:const|let) +(?<varname>\w+) *=[( ]*\/\*(?:(?!\*\/)[\s\S])*\*\/[( ]*(?<rest>Blue\.r\([A-Z]\w*)/g,
+          regex: /(?:const|let) +(?<varname>\w+) *=(?:\(|\s|\/\*(?:(?!\*\/)[\s\S])*\*\/)*(?<rest>Blue\.r\([A-Z]\w*)/g,
           // turn elements made from other Blue component updatable
           replaceWGroup({ varname, rest }) {
             return `let ${varname} = ${rest}`
