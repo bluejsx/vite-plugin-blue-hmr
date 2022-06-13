@@ -17,7 +17,7 @@ import HMRLoader, { transform } from '@bluejsx/vite-plugin-blue-hmr'
 ```ts
 transform(code: string) : string
 ```
-- This takes in BlueJSX code and file path, then returns modified code which enables HMR
+- This takes in BlueJSX code and returns modified code which enables HMR
 - This would be useful if you want to add HMR for other file formats (e.g. `.mdx`)
 
 
