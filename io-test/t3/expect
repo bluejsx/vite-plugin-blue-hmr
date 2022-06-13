@@ -82,8 +82,13 @@ export default function(_bjsx_comp_attr){let _p1 = _bjsx_comp_attr;
 if(import.meta.hot){
   const p_handler = hmrload(self);
   import.meta.hot.accept((Mod)=>{
-    if(!self.__canUpdate) import.meta.hot.decline()
-    const newElem = /* @__PURE__ */ Blue.r(Mod.default, _bjsx_comp_attr, _bjsx_comp_attr?.children || undefined)
+    if(!self.__canUpdate) {
+      import.meta.hot.decline()
+    }
+    const { children } = _bjsx_comp_attr
+    delete _bjsx_comp_attr.children
+    const newElem = /* @__PURE__ */ Blue.r(Mod.default, _bjsx_comp_attr, children)
+    _bjsx_comp_attr.children = children
     try{
       //---------------
       newElem.__mod_props = self.__mod_props;
