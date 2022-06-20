@@ -1,4 +1,4 @@
-import { Transformer, Scope, CodePlace } from 'https://cdn.skypack.dev/@bluejsx/code-transformer@^0.0.14?dts';
+import { Transformer, Scope, CodePlace } from 'https://cdn.skypack.dev/@bluejsx/code-transformer@^0.0.15?dts';
 export { hmrload } from './hmrload.js';
 
 
