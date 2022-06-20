@@ -1,75 +1,89 @@
-import { hmrload } from "@bluejsx/vite-plugin-blue-hmr";// @ts-nocheck
+import { hmrload } from "@bluejsx/vite-plugin-blue-hmr"; // @ts-nocheck
 
-export default function(_bjsx_comp_attr){
+export default function (_bjsx_comp_attr) {
   let { attr1, children } = _bjsx_comp_attr;
   const self = Blue.r("div", null, Blue.r(Comp, { class: "hello" }));
   //-----------------------------
-  if(import.meta.hot){
+  if (import.meta.hot) {
     const p_handler = hmrload(self);
-    import.meta.hot.accept(({ default })=>{
-      if(!self.__canUpdate) import.meta.hot.decline()
-      const newElem = Blue.r(default, _bjsx_comp_attr, _bjsx_comp_attr.children)
-      try{
+    import.meta.hot.accept((Mod) => {
+      if (!self.__canUpdate) {
+        import.meta.hot.decline();
+      }
+      const { children } = _bjsx_comp_attr;
+      delete _bjsx_comp_attr.children;
+      const newElem = /* @__PURE__ */ Blue.r(
+        Mod.default,
+        _bjsx_comp_attr,
+        children,
+      );
+      _bjsx_comp_attr.children = children;
+      try {
         //---------------
         newElem.__mod_props = self.__mod_props;
-        for(const [key, value] of newElem.__mod_props.entries()){
-          newElem[key] = value
+        for (const [key, value] of newElem.__mod_props.entries()) {
+          newElem[key] = value;
         }
 
-        newElem.__func_call = self.__func_call
-        for(const [key, value] of newElem.__func_call.entries()){
-          newElem[key](...value)
+        newElem.__func_call = self.__func_call;
+        for (const [key, value] of newElem.__func_call.entries()) {
+          newElem[key](...value);
         }
 
         //---------------
-      } catch(_){
-        import.meta.hot.decline()
+      } catch (_) {
+        import.meta.hot.decline();
       }
-      self.__newestElem = new Proxy(newElem, p_handler)
-      self.before(newElem)
-      self.remove()
-    })
+      self.__newestElem = new Proxy(newElem, p_handler);
+      self.before(newElem);
+      self.remove();
+    });
   }
   return self;
-};
-export function AA(_bjsx_comp_attr){
+}
+export function AA(_bjsx_comp_attr) {
   let { children } = _bjsx_comp_attr;
-  const self =(Blue.r("div", null, children)); //-----------------------------
-  if(import.meta.hot){
+  const self = (Blue.r("div", null, children)); //-----------------------------
+  if (import.meta.hot) {
     const p_handler = hmrload(self);
-    import.meta.hot.accept(({ AA })=>{
-      if(!self.__canUpdate) import.meta.hot.decline()
-      const newElem = Blue.r(AA, _bjsx_comp_attr, _bjsx_comp_attr.children)
-      try{
+    import.meta.hot.accept((Mod) => {
+      if (!self.__canUpdate) {
+        import.meta.hot.decline();
+      }
+      const { children } = _bjsx_comp_attr;
+      delete _bjsx_comp_attr.children;
+      const newElem = /* @__PURE__ */ Blue.r(Mod.AA, _bjsx_comp_attr, children);
+      _bjsx_comp_attr.children = children;
+      try {
         //---------------
         newElem.__mod_props = self.__mod_props;
-        for(const [key, value] of newElem.__mod_props.entries()){
-          newElem[key] = value
+        for (const [key, value] of newElem.__mod_props.entries()) {
+          newElem[key] = value;
         }
 
-        newElem.__func_call = self.__func_call
-        for(const [key, value] of newElem.__func_call.entries()){
-          newElem[key](...value)
+        newElem.__func_call = self.__func_call;
+        for (const [key, value] of newElem.__func_call.entries()) {
+          newElem[key](...value);
         }
 
         //---------------
-      } catch(_){
-        import.meta.hot.decline()
+      } catch (_) {
+        import.meta.hot.decline();
       }
-      self.__newestElem = new Proxy(newElem, p_handler)
-      self.before(newElem)
-      self.remove()
-    })
+      self.__newestElem = new Proxy(newElem, p_handler);
+      self.before(newElem);
+      self.remove();
+    });
   }
-  return self
-};
+  return self;
+}
 
 // {
 
 /*
   {
 */
-export function BB(_bjsx_comp_attr){
+export function BB(_bjsx_comp_attr) {
   let { children } = _bjsx_comp_attr;
   const reff = getRefs();
   let pp = Blue.r(Brogress, null);
@@ -91,33 +105,38 @@ export function BB(_bjsx_comp_attr){
 
   pp.__newestElem.er = 90;
   //-----------------------------
-  if(import.meta.hot){
+  if (import.meta.hot) {
     const p_handler = hmrload(self);
-    import.meta.hot.accept(({ BB })=>{
-      if(!self.__canUpdate) import.meta.hot.decline()
-      const newElem = Blue.r(BB, _bjsx_comp_attr, _bjsx_comp_attr.children)
-      try{
+    import.meta.hot.accept((Mod) => {
+      if (!self.__canUpdate) {
+        import.meta.hot.decline();
+      }
+      const { children } = _bjsx_comp_attr;
+      delete _bjsx_comp_attr.children;
+      const newElem = /* @__PURE__ */ Blue.r(Mod.BB, _bjsx_comp_attr, children);
+      _bjsx_comp_attr.children = children;
+      try {
         //---------------
         newElem.__mod_props = self.__mod_props;
-        for(const [key, value] of newElem.__mod_props.entries()){
-          newElem[key] = value
+        for (const [key, value] of newElem.__mod_props.entries()) {
+          newElem[key] = value;
         }
 
-        newElem.__func_call = self.__func_call
-        for(const [key, value] of newElem.__func_call.entries()){
-          newElem[key](...value)
+        newElem.__func_call = self.__func_call;
+        for (const [key, value] of newElem.__func_call.entries()) {
+          newElem[key](...value);
         }
 
         //---------------
-      } catch(_){
-        import.meta.hot.decline()
+      } catch (_) {
+        import.meta.hot.decline();
       }
-      self.__newestElem = new Proxy(newElem, p_handler)
-      self.before(newElem)
-      self.remove()
-    })
+      self.__newestElem = new Proxy(newElem, p_handler);
+      self.before(newElem);
+      self.remove();
+    });
   }
   return self;
-};
+}
 
 document.body.append(Blue.r(AA, null));
